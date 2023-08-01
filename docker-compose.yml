@@ -2,7 +2,7 @@ version: '3'
 services:
   # Docker in Docker images for test
   dind:
-  #  container_name: dind-test # name of the container
+    #  container_name: dind-test # name of the container
     image: docker:dind
     restart: "always"
     networks: # bridge
