@@ -2,7 +2,7 @@ version: '3'
 services:
   # Docker in Docker images for test
   dind:
-    container_name: dind-test # name of the container
+  #  container_name: dind-test # name of the container
     image: docker:dind
     restart: "always"
     networks: # bridge
@@ -13,6 +13,9 @@ services:
     environment: # this behavior is enabled by default
       - DOCKER_TLS_CERTDIR=/certs
     privileged: true
+    deploy:
+      mode: replicated
+      replicas: 3
 
 networks:
   dind-network:
