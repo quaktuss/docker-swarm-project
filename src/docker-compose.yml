@@ -1,0 +1,46 @@
+#####################################################
+# Creation of three DinD for Docker Swarm
+#
+#
+# This Docker Compose file allows to create three
+# DinD (Docker in Docker) containers in the same network,
+# it is a good idea for Swarm test
+#
+#
+# Author: quaktuss - maph
+# Date of creation: 01/08/2023
+# Last update : 08/08/2023
+# GitHub Repository : https://github.com/quaktuss/docker-swarm-project
+#####################################################
+
+version: '3'
+services:
+  dind:
+    image: docker:dind
+    networks:
+      - dind-network
+    volumes:
+      - some-docker-certs-ca:/certs/ca
+      - some-docker-certs-client:/certs/client
+    # Always restart the container if exits with a non-zero code
+    restart: "on-failure"
+    # Privileged true is required for dind to work properly
+    privileged: true
+    # This behavior is enabled by default since v19.03
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    # Create the same container three time
+    deploy:
+      mode: replicated
+      replicas: 3
+
+networks:
+  dind-network:
+    driver: bridge
+
+#
+volumes:
+  some-docker-certs-ca:
+    external: true
+  some-docker-certs-client:
+    external: true
