@@ -7,7 +7,7 @@
 # it is a good idea for Swarm test
 #
 #
-# Author: quaktuss - maph
+# Author: quaktuss
 # Date of creation: 01/08/2023
 # Last update : 08/08/2023
 # GitHub Repository : https://github.com/quaktuss/docker-swarm-project
@@ -15,10 +15,12 @@
 
 version: '3'
 services:
-  dind:
+  docker:
     image: docker:dind
     networks:
       - dind-network
+    # Inside the directory specified by environment, certificate file will
+    # create ( *.pem)
     volumes:
       - some-docker-certs-ca:/certs/ca
       - some-docker-certs-client:/certs/client
@@ -29,7 +31,7 @@ services:
     # This behavior is enabled by default since v19.03
     environment:
       - DOCKER_TLS_CERTDIR=/certs
-    # Create the same container three time
+    # Replicate the same container three time
     deploy:
       mode: replicated
       replicas: 3
@@ -38,7 +40,7 @@ networks:
   dind-network:
     driver: bridge
 
-#
+# Create local volume for the certificate
 volumes:
   some-docker-certs-ca:
     external: true
