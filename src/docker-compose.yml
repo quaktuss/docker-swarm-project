@@ -22,8 +22,8 @@ services:
     # Inside the directory specified by environment, certificate file will
     # create ( *.pem)
     volumes:
-      - some-docker-certs-ca:/certs/ca
-      - some-docker-certs-client:/certs/client
+      - certs-ca:/certs/ca
+      - certs-client:/certs/client
     # Always restart the container if exits with a non-zero code
     restart: "on-failure"
     # Privileged true is required for dind to work properly
@@ -41,8 +41,9 @@ networks:
     driver: bridge
 
 # Create local volume for the certificate
+# External false will create the volume if not exists
 volumes:
-  some-docker-certs-ca:
-    external: true
-  some-docker-certs-client:
-    external: true
+  certs-ca:
+    external: false
+  certs-client:
+    external: false
